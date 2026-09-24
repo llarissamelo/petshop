@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetShop Amigo Fiel - Cuidando do seu melhor amigo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Reset e Variáveis ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --laranja: #FF7A00;
+            --laranja-escuro: #E56A00;
+            --amarelo: #FFC107;
+            --amarelo-claro: #FFF3CD;
+            --amarelo-suave: #FFF9E6;
+            --texto: #2C2C2C;
+            --texto-claro: #6B6B6B;
+            --branco: #FFFFFF;
+            --sombra: 0 4px 20px rgba(255, 122, 0, 0.12);
+            --sombra-hover: 0 8px 30px rgba(255, 122, 0, 0.25);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--texto);
+            background: var(--branco);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* ===== Botões ===== */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--laranja), var(--amarelo));
+            color: var(--branco);
+            box-shadow: 0 6px 20px rgba(255, 122, 0, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(255, 122, 0, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--laranja);
+            border: 2px solid var(--laranja);
+        }
+
+        .btn-outline:hover {
+            background: var(--laranja);
+            color: var(--branco);
+            transform: translateY(-3px);
+        }
+
+        /* ===== Header ===== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 16px rgba(255, 122, 0, 0.08);
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-icon { font-size: 28px; }
+
+        .logo-text {
+            color: var(--texto);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span { color: var(--laranja); }
+
+        .nav ul {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav a {
+            font-weight: 500;
+            color: var(--texto);
+            font-size: 15px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--laranja), var(--amarelo));
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .nav a:hover { color: var(--laranja); }
+        .nav a:hover::after { width: 100%; }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: var(--amarelo-suave);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background: var(--amarelo-claro);
+            transform: scale(1.08);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--laranja);
+            color: var(--branco);
+            font-size: 11px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--branco);
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--amarelo-suave) 0%, var(--amarelo-claro) 100%);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--branco);
+            color: var(--laranja);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            box-shadow: var(--sombra);
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            line-height: 1.15;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--texto);
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--laranja), var(--amarelo));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: var(--texto-claro);
+            margin-bottom: 32px;
+            max-width: 520px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-stats strong {
+            font-size: 28px;
+            color: var(--laranja);
+            font-weight: 700;
+        }
+
+        .hero-stats span {
+            font-size: 14px;
+            color: var(--texto-claro);
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .hero-circle {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--laranja), var(--amarelo));
+            border-radius: 50%;
+            opacity: 0.9;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .hero-emoji {
+            font-size: 200px;
+            position: relative;
+            z-index: 2;
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.03); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* ===== Section Header ===== */
+        .section-header {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 56px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            color: var(--laranja);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .section-header h2 {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--texto);
+        }
+
+        .section-header p {
+            color: var(--texto-claro);
+            font-size: 16px;
+        }
+
+        /* ===== Serviços ===== */
+        .services {
+            padding: 90px 0;
+            background: var(--branco);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 28px;
+        }
+
+        .service-card {
+            background: var(--amarelo-suave);
+            padding: 36px 28px;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--laranja);
+            box-shadow: var(--sombra-hover);
+            background: var(--branco);
+        }
+
+        .service-icon {
+            font-size: 52px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--texto);
+        }
+
+        .service-card p {
+            color: var(--texto-claro);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .price {
+            display: inline-block;
+            color: var(--laranja);
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        /* ===== Produtos / Loja ===== */
+        .products {
+            padding: 90px 0;
+            background: linear-gradient(180deg, var(--branco) 0%, var(--amarelo-suave) 100%);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            border: 2px solid var(--amarelo-claro);
+            background: var(--branco);
+            color: var(--texto);
+            font-weight: 500;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--laranja), var(--amarelo));
+            color: var(--branco);
+            border-color: transparent;
+            box-shadow: 0 6px 18px rgba(255, 122, 0, 0.3);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 28px;
+        }
+
+        .product-card {
+            background: var(--branco);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--sombra-hover);
+        }
+
+        .product-image {
+            background: linear-gradient(135deg, var(--amarelo-claro), var(--amarelo-suave));
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+        }
+
+        .product-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--laranja);
+            color: var(--branco);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 50px;
+        }
+
+        .product-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: var(--laranja);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--texto);
+            min-height: 44px;
+        }
+
+        .product-rating {
+            font-size: 12px;
+            color: var(--texto-claro);
+        }
+
+        .product-price {
+            display: flex;
+            flex-direction: column;
+            margin: 4px 0 12px;
+        }
+
+        .old-price {
+            font-size: 13px;
+            color: var(--texto-claro);
+            text-decoration: line-through;
+        }
+
+        .new-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--laranja);
+        }
+
+        .btn-add {
+            margin-top: auto;
+            padding: 12px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(135deg, var(--laranja), var(--amarelo));
+            color: var(--branco);
+            font-weight: 600;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-add:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 18px rgba(255, 122, 0, 0.4);
+        }
+
+        /* ===== Sobre ===== */
+        .about {
+            padding: 90px 0;
+            background: var(--branco);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            background: linear-gradient(135deg, var(--laranja), var(--amarelo));
+            border-radius: var(--radius);
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 180px;
+            box-shadow: var(--sombra-hover);
+        }
+
+        .about-text h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 12px 0 20px;
+        }
+
+        .about-text p {
+            color: var(--texto-claro);
+            margin-bottom: 24px;
+            font-size: 16px;
+        }
+
+        .about-list {
+            margin-bottom: 32px;
+        }
+
+        .about-list li {
+            padding: 8px 0;
+            font-size: 15px;
+            color: var(--texto);
+            font-weight: 500;
+        }
+
+        /* ===== Features ===== */
+        .features {
+            background: linear-gradient(135deg, var(--laranja), var(--amarelo));
+            padding: 60px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px;
+        }
+
+        .feature {
+            text-align: center;
+            color: var(--branco);
+        }
+
+        .feature-icon {
+            font-size: 44px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .feature h4 {
+            font-size: 18px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .feature p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        /* ===== Newsletter ===== */
+        .newsletter {
+            padding: 60px 0;
+            background: var(--amarelo-suave);
+        }
+
+        .newsletter-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .newsletter h3 {
+            font-size: 26px;
+            margin-bottom: 6px;
+            color: var(--texto);
+        }
+
+        .newsletter p {
+            color: var(--texto-claro);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 50px;
+            border: 2px solid var(--amarelo-claro);
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--laranja);
+            box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.1);
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: #1F1F1F;
+            color: #CCCCCC;
+            padding: 60px 0 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+            gap: 40px;
+            padding-bottom: 40px;
+        }
+
+        .footer .logo-text { color: var(--branco); }
+
+        .footer-desc {
+            margin: 16px 0 20px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 122, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .social a:hover {
+            background: var(--laranja);
+            transform: translateY(-3px);
+        }
+
+        .footer h4 {
+            color: var(--branco);
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer ul li {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .footer ul a {
+            transition: var(--transition);
+        }
+
+        .footer ul a:hover {
+            color: var(--amarelo);
+            padding-left: 4px;
+        }
+
+        .contact-info li {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            line-height: 1.5;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 24px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+        }
+
+        /* ===== Responsivo ===== */
+        @media (max-width: 900px) {
+            .hero-content,
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p { margin-left: auto; margin-right: auto; }
+            .hero-buttons { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .hero h1 { font-size: 40px; }
+            .hero-circle { width: 300px; height: 300px; }
+            .hero-emoji { font-size: 150px; }
+
+            .nav ul { gap: 20px; }
+            .nav a { font-size: 14px; }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .newsletter-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .newsletter-form {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .about-image { height: 300px; font-size: 140px; }
+            .section-header h2 { font-size: 30px; }
+            .about-text h2 { font-size: 28px; }
+        }
+
+        @media (max-width: 640px) {
+            .nav { display: none; }
+
+            .hero h1 { font-size: 32px; }
+            .hero-circle { width: 240px; height: 240px; }
+            .hero-emoji { font-size: 120px; }
+
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .hero-buttons .btn { width: 100%; }
+
+            .hero-stats { gap: 24px; }
+
+            .filter-bar { gap: 8px; }
+            .filter-btn { padding: 8px 16px; font-size: 13px; }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social { justify-content: center; }
+            .contact-info li { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Menu -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span class="logo-text">Amigo<span>Fiel</span></span>
+            </a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#servicos">Serviços</a></li>
+                    <li><a href="#produtos">Loja</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="icon-btn" aria-label="Buscar">🔍</button>
+                <button class="icon-btn cart-btn" aria-label="Carrinho">
+                    🛒
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / Banner Principal -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <span class="badge">🐶 Bem-vindo ao Amigo Fiel</span>
+                <h1>Todo o carinho que seu <span>pet</span> merece</h1>
+                <p>Produtos de qualidade, banho & tosa, veterinário e muito mais. Tudo em um só lugar para cuidar de quem você ama.</p>
+                <div class="hero-buttons">
+                    <a href="#produtos" class="btn btn-primary">Comprar Agora</a>
+                    <a href="#servicos" class="btn btn-outline">Nossos Serviços</a>
+                </div>
+                <div class="hero-stats">
+                    <div>
+                        <strong>+5.000</strong>
+                        <span>Clientes felizes</span>
+                    </div>
+                    <div>
+                        <strong>+2.000</strong>
+                        <span>Produtos</span>
+                    </div>
+                    <div>
+                        <strong>10 anos</strong>
+                        <span>De experiência</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-circle"></div>
+                <span class="hero-emoji">🐕</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Serviços -->
+    <section class="services" id="servicos">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Nossos Serviços</span>
+                <h2>Cuidados completos para seu pet</h2>
+                <p>Oferecemos tudo que seu melhor amigo precisa com profissionais especializados.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🛁</div>
+                    <h3>Banho & Tosa</h3>
+                    <p>Banho relaxante, tosa higiênica e estética com produtos premium.</p>
+                    <span class="price">A partir de R$ 50</span>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🩺</div>
+                    <h3>Consultas Veterinárias</h3>
+                    <p>Atendimento veterinário completo, vacinas e exames.</p>
+                    <span class="price">A partir de R$ 120</span>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✂️</div>
+                    <h3>Tosa Especializada</h3>
+                    <p>Tosa da raça, higiênica e criativa para todas as raças.</p>
+                    <span class="price">A partir de R$ 70</span>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏨</div>
+                    <h3>Hotel & Creche</h3>
+                    <p>Hospedagem e creche com todo conforto e segurança.</p>
+                    <span class="price">A partir de R$ 80/dia</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loja Online -->
+    <section class="products" id="produtos">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Nossa Loja</span>
+                <h2>Produtos em Destaque</h2>
+                <p>Os melhores produtos para seu pet, com entrega rápida.</p>
+            </div>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="racao">Rações</button>
+                <button class="filter-btn" data-filter="brinquedos">Brinquedos</button>
+                <button class="filter-btn" data-filter="higiene">Higiene</button>
+                <button class="filter-btn" data-filter="acessorios">Acessórios</button>
+            </div>
+
+            <div class="products-grid">
+
+                <div class="product-card" data-category="racao">
+                    <div class="product-image">
+                        <span>🥫</span>
+                        <span class="product-tag">-15%</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Ração</span>
+                        <h3>Ração Premium Cães Adultos</h3>
+                        <div class="product-rating">⭐⭐⭐⭐⭐ (128)</div>
+                        <div class="product-price">
+                            <span class="old-price">R$ 149,90</span>
+                            <span class="new-price">R$ 127,42</span>
+                        </div>
+                        <button class="btn-add">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="brinquedos">
+                    <div class="product-image">
+                        <span>🎾</span>
+                        <span class="product-tag">Novo</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Brinquedos</span>
+                        <h3>Kit Bolinhas Interativas</h3>
+                        <div class="product-rating">⭐⭐⭐⭐⭐ (94)</div>
+                        <div class="product-price">
+                            <span class="new-price">R$ 39,90</span>
+                        </div>
+                        <button class="btn-add">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="higiene">
+                    <div class="product-image">
+                        <span>🧴</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Higiene</span>
+                        <h3>Shampoo Hipoalergênico 500ml</h3>
+                        <div class="product-rating">⭐⭐⭐⭐⭐ (203)</div>
+                        <div class="product-price">
+                            <span class="new-price">R$ 32,90</span>
+                        </div>
+                        <button class="btn-add">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="acessorios">
+                    <div class="product-image">
+                        <span>🦴</span>
+                        <span class="product-tag">-20%</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Acessórios</span>
+                        <h3>Coleira Antipulgas Ajustável</h3>
+                        <div class="product-rating">⭐⭐⭐⭐ (76)</div>
+                        <div class="product-price">
+                            <span class="old-price">R$ 49,90</span>
+                            <span class="new-price">R$ 39,92</span>
+                        </div>
+                        <button class="btn-add">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="racao">
+                    <div class="product-image">
+                        <span>🐟</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Ração</span>
+                        <h3>Ração para Gatos Sabor Salmão</h3>
+                        <div class="product-rating">⭐⭐⭐⭐⭐ (156)</div>
+                        <div class="product-price">
+                            <span class="new-price">R$ 89,90</span>
+                        </div>
+                        <button class="btn-add">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="acessorios">
+                    <div class="product-image">
+                        <span>🛏️</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Acessórios</span>
+                        <h3>Caminha Confortável Média</h3>
+                        <div class="product-rating">⭐⭐⭐⭐⭐ (89)</div>
+                        <div class="product-price">
+                            <span class="new-price">R$ 159,90</span>
+                        </div>
+                        <button class="btn-add">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="higiene">
+                    <div class="product-image">
+                        <span>🪥</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Higiene</span>
+                        <h3>Kit Escovação Dental Completo</h3>
+                        <div class="product-rating">⭐⭐⭐⭐ (64)</div>
+                        <div class="product-price">
+                            <span class="new-price">R$ 45,90</span>
+                        </div>
+                        <button class="btn-add">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="brinquedos">
+                    <div class="product-image">
+                        <span>🐭</span>
+                        <span class="product-tag">Novo</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Brinquedos</span>
+                        <h3>Ratinho de Pelúcia para Gatos</h3>
+                        <div class="product-rating">⭐⭐⭐⭐⭐ (112)</div>
+                        <div class="product-price">
+                            <span class="new-price">R$ 24,90</span>
+                        </div>
+                        <button class="btn-add">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section class="about" id="sobre">
+        <div class="container about-content">
+            <div class="about-image">
+                <span>🐕‍🦺</span>
+            </div>
+            <div class="about-text">
+                <span class="section-tag">Sobre Nós</span>
+                <h2>Amor e cuidado em cada detalhe</h2>
+                <p>Há 10 anos cuidamos com carinho dos pets da nossa comunidade. Nossa missão é oferecer os melhores produtos e serviços, sempre com atendimento humanizado e preços justos.</p>
+                <ul class="about-list">
+                    <li>✅ Profissionais especializados</li>
+                    <li>✅ Produtos de marcas confiáveis</li>
+                    <li>✅ Entrega rápida em toda região</li>
+                    <li>✅ Atendimento personalizado</li>
+                </ul>
+                <a href="#contato" class="btn btn-primary">Fale Conosco</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vantagens -->
+    <section class="features">
+        <div class="container features-grid">
+            <div class="feature">
+                <span class="feature-icon">🚚</span>
+                <h4>Frete Grátis</h4>
+                <p>Em compras acima de R$ 199</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">💳</span>
+                <h4>Parcele em até 12x</h4>
+                <p>Sem juros no cartão</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🔒</span>
+                <h4>Compra Segura</h4>
+                <p>Site 100% protegido</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">❤️</span>
+                <h4>Atendimento 24h</h4>
+                <p>Suporte sempre disponível</p>
+            </div>
+       
